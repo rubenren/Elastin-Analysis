@@ -1,0 +1,50 @@
+epoch: 0
+val_loss: 0.98752075
+test_loss: 0.9884239
+
+
+epoch: 1
+val_loss: 0.9702134
+test_loss: 0.9727487
+
+
+epoch: 2
+val_loss: 0.9543506
+test_loss: 0.9592987
+
+
+epoch: 3
+val_loss: 0.8857551
+test_loss: 0.90172786
+
+
+epoch: 4
+val_loss: 0.89384216
+test_loss: 0.9078761
+
+
+epoch: 5
+val_loss: 0.88177377
+test_loss: 0.89928955
+
+
+epoch: 6
+val_loss: 0.8019716
+test_loss: 0.8350091
+
+
+epoch: 7
+val_loss: 0.86597335
+test_loss: 0.880801
+
+
+epoch: 8
+val_loss: 0.7989808
+test_loss: 0.8363226
+
+
+epoch: 9
+val_loss: 0.8797815
+test_loss: 0.89540493
+
+
