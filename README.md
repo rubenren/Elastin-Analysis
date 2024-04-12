@@ -5,4 +5,5 @@
 ### environment.yml file is included
 
 ## For Command Line: we have two steps
-### first is run `conda create --prefix ./envs`
+### first is run `conda env create --prefix .\elastin-env -f environment.yml`
+### Then run `conda activate .\elastin-env\`
