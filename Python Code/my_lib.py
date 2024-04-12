@@ -1,5 +1,48 @@
 import numpy as np
 import cv2
+import keras
+import albumentations as albu
+
+class My_Custom_Generator(keras.utils.Sequence):
+
+    def __init__(self, image_filenames, label_filenames, batch_size, black_white = True, augmentations = True):
+        self.image_filenames = image_filenames    
+        self.label_filenames = label_filenames
+        self.batch_size = batch_size
+        self.bw = black_white
+        self.aug = augmentations
+
+        # Defining the augmentations
+        self.aug_train = albu.Compose([
+            albu.HorizontalFlip(),
+            albu.VerticalFlip(),
+            albu.Affine(scale=(0.5, 1.5), translate_percent=(-.125,.125), rotate=(-180, 180), shear=(-22.5, 22), always_apply=True)
+        ])
+
+    def __len__(self):
+        return (np.ceil(len(self.image_filenames) / float(self.batch_size))).astype(int)
+
+    def __getitem__(self, idx):
+        batch_x = self.image_filenames[idx * self.batch_size : (idx + 1) * self.batch_size]
+        batch_y = self.label_filenames[idx * self.batch_size : (idx + 1) * self.batch_size]
+
+
+        x = []
+        y = []
+        for x_file, y_file in zip(batch_x, batch_y):
+            temp1 = cv2.imread(x_file)
+            temp2 = cv2.imread(y_file)
+            temp2 = cv2.cvtColor(temp2, cv2.COLOR_BGR2GRAY)
+            if self.bw:
+                temp1 = cv2.cvtColor(temp1, cv2.COLOR_BGR2GRAY)
+            if self.aug:
+                ug = self.aug_train(image=temp1, mask=temp2)
+                temp1 = ug['image'] / 255
+                temp2 = ug['mask'] / 255
+            x.append(temp1)
+            y.append(temp2)
+
+        return np.array(x), np.array(y)
 
 def generate_gt_img(img, nPct = 5, cCount = 100):
     """Returns a mask from a black and white image
@@ -63,7 +106,7 @@ def stitch_img_grid(img_grid):
     
     return out_img
 
-def align_datum(image_path = '', mask_path = '', color = False, size=512):
+def align_datum(image_path = '', mask_path = '', color = False, size=512, ):
     image = cv2.imread(image_path)
     mask = cv2.imread(mask_path)
     if not color:
