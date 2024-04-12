@@ -10,6 +10,7 @@
 
 
 ## File Structure should be as follows:
+`
 .
 ├── README.md
 ├── data
@@ -20,3 +21,4 @@
 ├── diagram.txt
 ├── environment.yml
 └── requirements.txt
+`
